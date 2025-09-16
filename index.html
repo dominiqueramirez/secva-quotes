@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secretary Quote Library</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Secretary Quote Library</h1>
+
+    <!-- Search + Filters toolbar -->
+    <div class="toolbar" role="search">
+      <label class="control">
+        <span>Search</span>
+        <input id="q" class="text-input" type="search" placeholder="Find quotes, tweets, titles, hosts, tags…" aria-label="Search quotes" />
+      </label>
+
+      <label class="control">
+        <span>Type</span>
+        <select id="typeFilter" class="select" aria-label="Filter by event type">
+          <option value="">All types</option>
+          <option value="speech">speech</option>
+          <option value="interview">interview</option>
+          <option value="podcast">podcast</option>
+          <option value="hearing">hearing</option>
+          <option value="news-hit">news-hit</option>
+        </select>
+      </label>
+
+      <label class="control">
+        <span>Status</span>
+        <select id="statusFilter" class="select" aria-label="Filter by status">
+          <option value="">All</option>
+          <option value="used">used</option>
+          <option value="unused">unused</option>
+        </select>
+      </label>
+
+      <label class="control">
+        <span>Sort by date</span>
+        <select id="sortOrder" class="select" aria-label="Sort by event date">
+          <option value="desc">Newest → Oldest</option>
+          <option value="asc">Oldest → Newest</option>
+        </select>
+      </label>
+
+      <div class="toolbar-actions">
+        <button id="clearFilters" class="button">Clear</button>
+      </div>
+    </div>
+
+    <!-- Active tag filter (click a tag chip to set) -->
+    <div id="activeTagWrap" class="active-tag" aria-live="polite"></div>
+  </header>
+
+  <main id="app">
+    <p>Loading quotes...</p>
+  </main>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+
+  <!-- App scripts -->
+  <script src="js/ingest-strict.js"></script>
+  <script src="js/ingest-lenient.js"></script>
+  <script src="js/youtube.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/ui-components.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

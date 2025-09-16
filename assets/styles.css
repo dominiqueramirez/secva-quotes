@@ -1,0 +1,228 @@
+/* Base layout */
+:root {
+  --bg: #f6f7f9;
+  --card-bg: #ffffff;
+  --text: #1b1f23;
+  --muted: #57606a;
+  --border: #e6e8eb;
+  --accent: #0a66ff;     /* Expand/Collapse button (blue) */
+  --copy: #10b981;       /* Copy buttons (emerald) */
+  --accent-2: #0f172a;
+  --focus: #ffbf47;
+  --badge: #eef2ff;
+  --chip: #f0fdf4;
+  --warn: #fff7e6;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;                 /* solid background */
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 1.25rem 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+h1 {
+  margin: 0 0 .75rem 0;
+  font-size: 1.75rem;
+  letter-spacing: .2px;
+}
+
+main#app {
+  padding: 1rem 1.25rem 2.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Toolbar */
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, minmax(160px, 200px)) auto;
+  gap: .75rem;
+  align-items: end;
+  max-width: 1100px;
+  margin: 0 auto .75rem;
+}
+.control { display: grid; gap: .3rem; font-size: .9rem; color: var(--muted); }
+.text-input, .select {
+  width: 100%;
+  padding: .5rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+}
+.text-input:focus, .select:focus { outline: 3px solid var(--focus); outline-offset: 1px; }
+.toolbar-actions { display: flex; gap: .5rem; align-items: center; }
+
+.active-tag {
+  max-width: 1100px;
+  margin: 0.25rem auto 0.75rem;
+  min-height: 1.25rem;
+}
+.active-tag .tag {
+  background: #eef6ff;
+  border: 1px solid #dbeafe;
+  color: #0b3fbf;
+}
+
+/* Utilities */
+.muted { color: var(--muted); }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .15rem .5rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  border: 1px solid var(--border);
+  background: var(--badge);
+}
+
+/* Cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  padding: 1rem;
+}
+
+.card header {
+  position: static;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0 0 .5rem 0;
+}
+
+.card h2 {
+  font-size: 1rem;
+  margin: 0 0 .25rem 0;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem .75rem;
+  font-size: .85rem;
+  color: var(--muted);
+  margin-bottom: .5rem;
+}
+
+.type-badge {
+  padding: .15rem .5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: .65rem;
+  letter-spacing: .3px;
+}
+
+/* Line headers for Tweet/Quote */
+.line-header {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+.quote-body {
+  white-space: pre-wrap;
+  margin: .35rem 0 .5rem;
+  font-size: 1rem;
+}
+
+/* Buttons */
+.button {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: .4rem .65rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font: inherit;
+}
+.button:hover { border-color: #c9ced6; }
+.button:focus { outline: 3px solid var(--focus); outline-offset: 1px; }
+.button.sm { padding: .25rem .5rem; font-size: .85rem; }
+
+/* Colored (accent) button = Expand/Collapse */
+.button.accent {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.button.accent:hover { filter: brightness(0.97); }
+.button.accent:active { transform: translateY(1px); }
+
+/* Copy buttons – distinct emerald color */
+.button.copy-btn {
+  background: var(--copy);
+  border-color: var(--copy);
+  color: #fff;
+}
+.button.copy-btn:hover { filter: brightness(0.97); }
+.button.copy-btn:active { transform: translateY(1px); }
+
+/* Tag chips */
+.tags {
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+  margin-top: .25rem;
+}
+.tag {
+  background: var(--chip);
+  border: 1px solid #dcfce7;
+  padding: .15rem .5rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  cursor: pointer;
+}
+
+/* Embed */
+.embed {
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: .5rem;
+  background: #fafafa;
+  margin-top: .5rem;
+}
+
+.warning {
+  background: var(--warn);
+  border: 1px solid #ffe1a4;
+  padding: .25rem .5rem;
+  border-radius: 8px;
+  font-size: .8rem;
+  display: inline-flex;
+  gap: .35rem;
+  align-items: center;
+}
+
+/* Collapsible (button-driven) — show one state at a time */
+.collapsible .trunc { display: block; }
+.collapsible .full  { display: none; }
+.collapsible.expanded .trunc { display: none; }
+.collapsible.expanded .full  { display: block; }
