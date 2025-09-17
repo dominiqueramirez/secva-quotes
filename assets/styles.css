@@ -294,6 +294,20 @@ main#app {
   align-items: center;
 }
 
+/* Footer */
+.site-footer {
+  margin-top: 2rem;
+  padding: 1rem 0 2rem;
+  background: transparent;
+}
+.site-footer .footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
 /* Collapsible (button-driven) — show one state at a time */
 .collapsible .trunc { display: block; }
 .collapsible .full  { display: none; }
