@@ -257,14 +257,22 @@ main#app {
 #tagList {
   max-width: 1100px;
   margin: 0.5rem auto;
-  display: flex;
+  display: none; /* hidden by default unless opened */
   gap: .5rem;
   flex-wrap: wrap;
   align-items: center;
 }
 
+/* When explicitly opened (JS toggles this class) */
+#tagList.open {
+  display: flex;
+}
+
 /* Respect the HTML hidden attribute (author CSS might override it) */
 #tagList[hidden] { display: none !important; }
+
+/* Smooth reveal */
+#tagList.open { transition: opacity .15s ease-in; opacity: 1; }
 
 /* Embed */
 .embed {

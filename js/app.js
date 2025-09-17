@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     applyAndRender();
   // Render tag list using allRows (hidden by default)
-  if ($tagList) { $tagList.hidden = true; }
+  if ($tagList) { $tagList.classList.remove('open'); $tagList.hidden = true; }
   renderTagList(allRows);
 
     // Toolbar handlers
@@ -174,14 +174,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Tag panel toggle
     if ($tagPanelToggle && $tagList) {
-      $tagPanelToggle.addEventListener('click', () => {
+      $tagPanelToggle.addEventListener('click', (ev) => {
+        // ensure this is treated as a plain button across browsers
+        ev.preventDefault();
         const expanded = $tagPanelToggle.getAttribute('aria-expanded') === 'true';
-        $tagPanelToggle.setAttribute('aria-expanded', (!expanded).toString());
-        // When collapsed, hide tag list
-        $tagList.hidden = expanded;
-        // If we collapsed, remove any active UI state (no visual tags shown)
-        if (expanded) {
-          // nothing else to do; hidden controls visibility
+        const willExpand = !expanded;
+        $tagPanelToggle.setAttribute('aria-expanded', willExpand.toString());
+        // Toggle a class instead of relying solely on hidden (Edge has quirks with focus/hidden)
+        if (willExpand) {
+          $tagList.classList.add('open');
+          $tagList.hidden = false;
+        } else {
+          $tagList.classList.remove('open');
+          // keep hidden attribute in sync for accessibility
+          $tagList.hidden = true;
         }
       });
       // Handle clicks on tag items inside the header panel
@@ -194,6 +200,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         applyAndRender();
         renderTagList(allRows);
         // Close the tag list after selection and move focus back to toggle
+        $tagList.classList.remove('open');
         $tagList.hidden = true;
         $tagPanelToggle.setAttribute('aria-expanded', 'false');
         $tagPanelToggle.focus();
