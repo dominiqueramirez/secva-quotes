@@ -56,6 +56,26 @@ main#app {
   margin: 0 auto .75rem;
 }
 .control { display: grid; gap: .3rem; font-size: .9rem; color: var(--muted); }
+
+/* Date range: show 'From' and 'To' on one line */
+.date-range {
+  display: flex;
+  gap: .6rem;
+  align-items: end; /* align label texts with inputs */
+}
+
+.date-range > label {
+  display: grid;
+  gap: .3rem;
+  font-size: .9rem;
+  color: var(--muted);
+  min-width: 0; /* allow inputs to shrink in tight layouts */
+}
+
+.date-range .text-input {
+  width: auto; /* let flex container manage width */
+  min-width: 10ch;
+}
 .text-input, .select {
   width: 100%;
   padding: .5rem .6rem;

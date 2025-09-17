@@ -25,11 +25,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   const $q = document.getElementById('q');
   const $type = document.getElementById('typeFilter');
   const $status = document.getElementById('statusFilter');
+  const $dateStart = document.getElementById('dateStart');
+  const $dateEnd = document.getElementById('dateEnd');
   const $sort = document.getElementById('sortOrder');
   const $clear = document.getElementById('clearFilters');
   const $activeTagWrap = document.getElementById('activeTagWrap');
 
-  const state = { q: '', type: '', status: '', tag: '', sort: 'desc' };
+  const state = { q: '', type: '', status: '', tag: '', sort: 'desc', dateStart: '', dateEnd: '' };
   let allRows = [];
 
   function renderActiveTag() {
@@ -81,10 +83,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     $q.addEventListener('input', (e) => { state.q = e.target.value; applyAndRender(); });
     $type.addEventListener('change', (e) => { state.type = e.target.value; applyAndRender(); });
     $status.addEventListener('change', (e) => { state.status = e.target.value; applyAndRender(); });
+    if ($dateStart) $dateStart.addEventListener('change', (e) => { state.dateStart = e.target.value; applyAndRender(); });
+    if ($dateEnd) $dateEnd.addEventListener('change', (e) => { state.dateEnd = e.target.value; applyAndRender(); });
     $sort.addEventListener('change', (e) => { state.sort = e.target.value; applyAndRender(); });
     $clear.addEventListener('click', () => {
-      state.q = state.type = state.status = state.tag = ''; state.sort = 'desc';
+      state.q = state.type = state.status = state.tag = state.dateStart = state.dateEnd = ''; state.sort = 'desc';
       $q.value = ''; $type.value = ''; $status.value = ''; $sort.value = 'desc';
+      if ($dateStart) $dateStart.value = ''; if ($dateEnd) $dateEnd.value = '';
       applyAndRender();
     });
 

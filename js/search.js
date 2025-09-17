@@ -49,6 +49,18 @@
           .map((t) => t.trim().toLowerCase());
         if (!tags.includes(tag.toLowerCase())) return false;
       }
+
+      // Date range filtering (inclusive). state may provide dateStart/dateEnd as
+      // either YYYY-MM-DD or M/D/YYYY; parse to ISO for safe comparison.
+      const start = parseDateFlexible(state.dateStart);
+      const end = parseDateFlexible(state.dateEnd);
+      if (start || end) {
+        const ev = parseDateFlexible(r.event_date);
+        // If the event date can't be parsed, exclude it when a date filter is active.
+        if (!ev) return false;
+        if (start && ev < start) return false;
+        if (end && ev > end) return false;
+      }
       return true;
     });
 
