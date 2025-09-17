@@ -128,6 +128,13 @@ main#app {
   padding: 1rem;
 }
 
+/* Collapsed card: hide extra content to fit more cards on a page */
+.card.collapsed .card-body {
+  display: none;
+}
+.card header { display:flex; justify-content:space-between; align-items:flex-start; gap:.5rem; }
+.card-toggle { white-space:nowrap; }
+
 .card header {
   position: static;
   border: 0;
@@ -142,13 +149,19 @@ main#app {
 }
 
 .meta {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: .5rem .75rem;
+  gap: .35rem .65rem;
   font-size: .85rem;
   color: var(--muted);
-  margin-bottom: .5rem;
+  margin-bottom: .25rem;
 }
+
+.meta span { white-space: nowrap; }
+.meta .meta-title { flex: 1 1 220px; min-width: 140px; }
+.meta .meta-type,
+.meta .meta-date,
+.meta .meta-status { flex: 0 0 auto; }
 
 .type-badge {
   padding: .15rem .5rem;

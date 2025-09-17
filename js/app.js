@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const chip = e.target.closest('.tag');
       if (chip && chip.dataset && chip.dataset.tag) { state.tag = chip.dataset.tag; applyAndRender(); return; }
 
-      // Expand/Collapse
+      // Expand/Collapse (quote-level collapsible and the new card-level toggle)
       const toggle = e.target.closest('.toggle-btn');
       if (toggle) {
         const container = toggle.closest('.collapsible');
@@ -107,6 +107,17 @@ document.addEventListener('DOMContentLoaded', async () => {
           const expanded = container.classList.toggle('expanded');
           container.querySelectorAll('.toggle-btn').forEach((btn) => btn.setAttribute('aria-expanded', expanded ? 'true' : 'false'));
           container.querySelectorAll('.toggle-btn').forEach((btn) => (btn.textContent = expanded ? 'Collapse ▴' : 'Expand ▾'));
+        }
+        return;
+      }
+
+      const cardToggle = e.target.closest('.card-toggle');
+      if (cardToggle) {
+        const card = cardToggle.closest('.card');
+        if (card) {
+          const isCollapsed = card.classList.toggle('collapsed');
+          cardToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+          cardToggle.textContent = isCollapsed ? 'Expand ▾' : 'Collapse ▴';
         }
         return;
       }

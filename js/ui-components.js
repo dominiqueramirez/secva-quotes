@@ -91,42 +91,50 @@ window.renderQuoteCard = function renderQuoteCard(row, repairNotes = []) {
 
   // Build the card
   return `
-  <article class="card" data-record="${escAttr(safe(record_id))}" aria-label="Quote card">
+  <article class="card collapsed" data-record="${escAttr(safe(record_id))}" aria-label="Quote card">
     <header>
-      <h2>${esc(safe(event_title) || '(untitled)')}</h2>
-      <div class="meta">
-        <span>${esc(safe(event_date))}</span>
-        <span class="type-badge">${esc(safe(event_type))}</span>
-        <span class="muted">${esc(safe(show_or_host))}</span>
-        <span class="muted">Status: ${esc(safe(status))}</span>
-        ${repaired}
+      <div style="display:flex;flex-direction:column;gap:.25rem;flex:1;">
+        <h2 style="margin:0">${esc(safe(show_or_host) || '(unknown)')}</h2>
+        <div class="meta">
+          <span class="meta-title"><strong>Event Title:</strong> ${esc(safe(event_title) || '(untitled)')}</span>
+          <span class="meta-type"><strong>Event Type:</strong> ${esc(safe(event_type) || '')}</span>
+          <span class="meta-date"><strong>Date:</strong> ${esc(safe(event_date) || '')}</span>
+          <span class="meta-status"><strong>Status:</strong> ${esc(safe(status) || '')}</span>
+          ${repaired}
+        </div>
+        <div style="display:flex;justify-content:flex-end;">
+          <button class="button accent sm card-toggle" aria-expanded="false">Expand ▾</button>
+        </div>
       </div>
     </header>
 
     ${tweetHtml}
-    ${quoteHtml}
 
-    ${tagChips ? `<div class="tags">${tagChips}</div>` : ''}
+    <div class="card-body">
+      ${quoteHtml}
 
-    <div class="embed" role="group" aria-label="Clip">
-      ${ytId ? `<iframe width="100%" height="215" src="https://www.youtube.com/embed/${esc(ytId)}"
-                title="YouTube video" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen loading="lazy"></iframe>`
-             : `<div class="muted">No video available</div>`}
-    </div>
+      ${tagChips ? `<div class="tags">${tagChips}</div>` : ''}
 
-    ${normalizedURL ? `
-      <div class="clip-block" style="margin-top:.5rem">
-        <div class="line-header"><strong>Clip:</strong></div>
-        <div class="clip-url" style="margin:.25rem 0;">
-          <a href="${escAttr(normalizedURL)}" target="_blank" rel="noopener" style="word-break:break-all;">${esc(normalizedURL)}</a>
-        </div>
-        <div class="clip-actions">
-          <button class="button sm copy-btn" data-copy="${escAttr(normalizedURL)}">Copy URL</button>
-        </div>
+      <div class="embed" role="group" aria-label="Clip">
+        ${ytId ? `<iframe width="100%" height="215" src="https://www.youtube.com/embed/${esc(ytId)}"
+                  title="YouTube video" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen loading="lazy"></iframe>`
+               : `<div class="muted">No video available</div>`}
       </div>
-    ` : ''}
+
+      ${normalizedURL ? `
+        <div class="clip-block" style="margin-top:.5rem">
+          <div class="line-header"><strong>Clip:</strong></div>
+          <div class="clip-url" style="margin:.25rem 0;">
+            <a href="${escAttr(normalizedURL)}" target="_blank" rel="noopener" style="word-break:break-all;">${esc(normalizedURL)}</a>
+          </div>
+          <div class="clip-actions">
+            <button class="button sm copy-btn" data-copy="${escAttr(normalizedURL)}">Copy URL</button>
+          </div>
+        </div>
+      ` : ''}
+    </div>
 
   </article>
   `;
