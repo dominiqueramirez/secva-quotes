@@ -33,10 +33,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const state = { q: '', type: '', status: '', tag: '', sort: 'desc', dateStart: '', dateEnd: '' };
   let allRows = [];
+  const $tagPanelToggle = document.getElementById('tagPanelToggle');
+  const $tagList = document.getElementById('tagList');
 
   function renderActiveTag() {
     if (!state.tag) { $activeTagWrap.innerHTML = ''; return; }
     $activeTagWrap.innerHTML = `<span class="tag" role="button" title="Click to clear tag filter">${state.tag} ✕</span>`;
+  }
+
+  function computeTagCounts(rows) {
+    const counts = Object.create(null);
+    rows.forEach((r) => {
+      const tags = String(r.tags || '').split('|').map(t => t.trim()).filter(Boolean);
+      tags.forEach((t) => { counts[t] = (counts[t] || 0) + 1; });
+    });
+    return counts;
+  }
+
+  function renderTagList(rows) {
+    if (!$tagList) return;
+    const counts = computeTagCounts(rows);
+    const entries = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
+    $tagList.innerHTML = entries.map((t) => {
+      const c = counts[t];
+      const active = state.tag === t ? ' active' : '';
+      return `<button class="tag-item${active}" data-tag="${t}">${esc(t)}<span class="tag-count">${c}</span></button>`;
+    }).join('');
   }
 
   function renderGrid(rows) {
@@ -78,6 +100,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     allRows = lenientRows;
 
     applyAndRender();
+  // Render tag list using allRows (hidden by default)
+  if ($tagList) { $tagList.hidden = true; }
+  renderTagList(allRows);
 
     // Toolbar handlers
     $q.addEventListener('input', (e) => { state.q = e.target.value; applyAndRender(); });
@@ -97,7 +122,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     grid.addEventListener('click', async (e) => {
       // Tag filter
       const chip = e.target.closest('.tag');
-      if (chip && chip.dataset && chip.dataset.tag) { state.tag = chip.dataset.tag; applyAndRender(); return; }
+      if (chip && chip.dataset && chip.dataset.tag) { state.tag = chip.dataset.tag; applyAndRender(); renderTagList(allRows); return; }
+
+      // Tag panel item click
+      const tagItem = e.target.closest('.tag-item');
+      if (tagItem && tagItem.dataset && tagItem.dataset.tag) {
+        state.tag = tagItem.dataset.tag;
+        applyAndRender();
+        renderTagList(allRows);
+        return;
+      }
 
       // Expand/Collapse (quote-level collapsible and the new card-level toggle)
       const toggle = e.target.closest('.toggle-btn');
@@ -137,6 +171,34 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Clear active tag by click
     $activeTagWrap.addEventListener('click', () => { if (!state.tag) return; state.tag = ''; applyAndRender(); });
+
+    // Tag panel toggle
+    if ($tagPanelToggle && $tagList) {
+      $tagPanelToggle.addEventListener('click', () => {
+        const expanded = $tagPanelToggle.getAttribute('aria-expanded') === 'true';
+        $tagPanelToggle.setAttribute('aria-expanded', (!expanded).toString());
+        // When collapsed, hide tag list
+        $tagList.hidden = expanded;
+        // If we collapsed, remove any active UI state (no visual tags shown)
+        if (expanded) {
+          // nothing else to do; hidden controls visibility
+        }
+      });
+      // Handle clicks on tag items inside the header panel
+      $tagList.addEventListener('click', (ev) => {
+        const item = ev.target.closest('.tag-item');
+        if (!item || !item.dataset) return;
+        ev.preventDefault();
+        const t = item.dataset.tag;
+        state.tag = t;
+        applyAndRender();
+        renderTagList(allRows);
+        // Close the tag list after selection and move focus back to toggle
+        $tagList.hidden = true;
+        $tagPanelToggle.setAttribute('aria-expanded', 'false');
+        $tagPanelToggle.focus();
+      });
+    }
 
   } catch (err) {
     console.error(err);

@@ -234,6 +234,38 @@ main#app {
   cursor: pointer;
 }
 
+/* Tag panel */
+.tag-panel {
+  display: inline-flex;
+  gap: .5rem;
+  align-items: center;
+}
+.tag-item {
+  display: inline-flex;
+  gap: .4rem;
+  align-items: center;
+  padding: .25rem .5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+}
+.tag-item.active { background: var(--badge); border-color: #cfe0ff; }
+.tag-count { font-size: .75rem; color: var(--muted); margin-left: .35rem; }
+
+/* Full-width tag list under the toolbar */
+#tagList {
+  max-width: 1100px;
+  margin: 0.5rem auto;
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Respect the HTML hidden attribute (author CSS might override it) */
+#tagList[hidden] { display: none !important; }
+
 /* Embed */
 .embed {
   border: 1px dashed var(--border);

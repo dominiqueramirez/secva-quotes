@@ -61,11 +61,17 @@
 
       <div class="toolbar-actions">
         <button id="clearFilters" class="button">Clear</button>
+        <div id="tagPanel" class="tag-panel">
+          <button id="tagPanelToggle" class="button sm" aria-expanded="false">Tags ▾</button>
+        </div>
       </div>
     </div>
+      <!-- Collapsible tag list (hidden by default) -->
+      <div id="tagList" class="tag-list" hidden></div>
 
     <!-- Active tag filter (click a tag chip to set) -->
     <div id="activeTagWrap" class="active-tag" aria-live="polite"></div>
+    
   </header>
 
   <main id="app">
