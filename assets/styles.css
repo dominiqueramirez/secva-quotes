@@ -130,10 +130,41 @@ main#app {
 
 /* Collapsed card: hide extra content to fit more cards on a page */
 .card.collapsed .card-body {
+  /* Keep body visible but hide everything except the tweet when collapsed */
+  display: block;
+}
+
+/* Hide header area when collapsed so only tweet + buttons remain visible */
+.card.collapsed > header {
   display: none;
+}
+
+/* Hide all children of .card-body by default; tweet is explicitly shown */
+.card .card-body > * {
+  display: none;
+}
+
+.card .card-body .tweet {
+  display: block; /* tweet always visible */
+}
+
+/* When collapsed, hide quote, meta, and actions inside card-body */
+.card.collapsed .card-body .quote,
+.card.collapsed .card-body .meta,
+.card.collapsed .card-body .actions,
+.card.collapsed .card-body .embed,
+.card.collapsed .card-body .clip-block,
+.card.collapsed .card-body .tags {
+  display: none !important;
 }
 .card header { display:flex; justify-content:space-between; align-items:flex-start; gap:.5rem; }
 .card-toggle { white-space:nowrap; }
+
+/* Place the card-level toggle inside the tweet area and align right */
+.card .tweet .card-toggle {
+  float: right;
+  margin-left: 8px;
+}
 
 .card header {
   position: static;

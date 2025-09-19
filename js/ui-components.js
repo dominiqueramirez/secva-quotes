@@ -55,11 +55,16 @@ window.renderQuoteCard = function renderQuoteCard(row, repairNotes = []) {
   const tweetTextClean = safe(tweet_text);
   const tweetHtml = tweetTextClean
     ? `
-      <div class="line-header">
-        <strong>Tweet:</strong>
-        <button class="button sm copy-btn" data-copy="${escAttr(tweetTextClean)}">Copy tweet</button>
+      <div class="tweet">
+        <div class="line-header">
+          <strong>Tweet:</strong>
+          <div style="margin-left:auto; display:flex; gap:.4rem; align-items:center;">
+            <button class="button sm copy-btn" data-copy="${escAttr(tweetTextClean)}">Copy tweet</button>
+            <button class="button accent sm card-toggle" aria-expanded="false">Expand ▾</button>
+          </div>
+        </div>
+        <div class="quote-body" aria-label="Tweet text">${esc(tweetTextClean).replaceAll('\n', '<br>')}</div>
       </div>
-      <div class="quote-body" aria-label="Tweet text">${esc(tweetTextClean).replaceAll('\n', '<br>')}</div>
     `
     : '';
 
@@ -102,9 +107,7 @@ window.renderQuoteCard = function renderQuoteCard(row, repairNotes = []) {
           <span class="meta-status"><strong>Status:</strong> ${esc(safe(status) || '')}</span>
           ${repaired}
         </div>
-        <div style="display:flex;justify-content:flex-end;">
-          <button class="button accent sm card-toggle" aria-expanded="false">Expand ▾</button>
-        </div>
+        <!-- card-level toggle moved into the tweet area so collapsed cards show only the tweet -->
       </div>
     </header>
 

@@ -149,9 +149,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (cardToggle) {
         const card = cardToggle.closest('.card');
         if (card) {
-          const isCollapsed = card.classList.toggle('collapsed');
-          cardToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
-          cardToggle.textContent = isCollapsed ? 'Expand ▾' : 'Collapse ▴';
+          // If card had 'collapsed', remove it to expand; otherwise add to collapse
+          const willBeCollapsed = !card.classList.contains('collapsed');
+          if (willBeCollapsed) {
+            card.classList.add('collapsed');
+            cardToggle.setAttribute('aria-expanded', 'false');
+            cardToggle.textContent = 'Expand ▾';
+          } else {
+            card.classList.remove('collapsed');
+            cardToggle.setAttribute('aria-expanded', 'true');
+            cardToggle.textContent = 'Collapse ▴';
+          }
         }
         return;
       }
