@@ -104,6 +104,49 @@ document.addEventListener('DOMContentLoaded', async () => {
   if ($tagList) { $tagList.classList.remove('open'); $tagList.hidden = true; }
   renderTagList(allRows);
 
+    // Header collapse controls: auto-collapse on scroll, with manual toggle
+    const headerToggle = document.getElementById('headerToggle');
+    let headerManual = false; // if true, user's manual choice is respected and scroll won't override
+    let headerCollapsed = false;
+    const setHeaderCollapsed = (collapsed) => {
+      headerCollapsed = !!collapsed;
+      if (headerCollapsed) {
+        document.documentElement.classList.add('header-collapsed');
+        headerToggle.setAttribute('aria-expanded', 'false');
+        headerToggle.textContent = '▸';
+        headerToggle.title = 'Expand header';
+      } else {
+        document.documentElement.classList.remove('header-collapsed');
+        headerToggle.setAttribute('aria-expanded', 'true');
+        headerToggle.textContent = '▾';
+        headerToggle.title = 'Collapse header';
+      }
+    };
+    if (headerToggle) {
+      headerToggle.addEventListener('click', () => {
+        headerManual = true;
+        setHeaderCollapsed(!headerCollapsed);
+      });
+
+      // Auto-collapse on scroll down, expand when near top. Debounced.
+      let lastY = window.scrollY;
+      let tick = null;
+      window.addEventListener('scroll', () => {
+        if (headerManual) return; // don't override manual toggle
+        if (tick) return; // simple throttle
+        tick = setTimeout(() => {
+          const y = window.scrollY;
+          const delta = y - lastY;
+          // if scrolling down and past 120px, collapse header
+          if (delta > 0 && y > 120) setHeaderCollapsed(true);
+          // if scrolling up or near top, expand header
+          if (delta < 0 && y < 120) setHeaderCollapsed(false);
+          lastY = y;
+          clearTimeout(tick); tick = null;
+        }, 120);
+      }, { passive: true });
+    }
+
     // Toolbar handlers
     $q.addEventListener('input', (e) => { state.q = e.target.value; applyAndRender(); });
     $type.addEventListener('change', (e) => { state.type = e.target.value; applyAndRender(); });
