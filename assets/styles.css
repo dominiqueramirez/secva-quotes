@@ -34,6 +34,27 @@ header {
   box-shadow: 0 2px 8px rgba(0,0,0,.06);
 }
 
+/* Collapsed header: compact single-row bar with title and toggle */
+.header-collapsed header {
+  padding: .5rem 1rem;
+}
+.header-collapsed .toolbar { display: none; }
+.header-collapsed .active-tag { display: none; }
+
+#headerToggle { 
+  margin-left: .5rem; 
+  font-size: 1.05rem; /* slightly larger arrow */
+  padding: .25rem .5rem;
+  line-height: 1;
+  border-radius: 6px;
+}
+
+/* Make the arrow more visually prominent on the collapsed header bar */
+.header-collapsed #headerToggle {
+  font-size: 1.15rem;
+  padding: .25rem .6rem;
+}
+
 h1 {
   margin: 0 0 .75rem 0;
   font-size: 1.75rem;
