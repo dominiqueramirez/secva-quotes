@@ -344,6 +344,9 @@ main#app {
   margin-top: .5rem;
 }
 
+.embed-frame { position: relative; }
+.embed-fallback { margin-top: .5rem; }
+
 .warning {
   background: var(--warn);
   border: 1px solid #ffe1a4;

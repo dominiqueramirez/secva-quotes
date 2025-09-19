@@ -119,11 +119,17 @@ window.renderQuoteCard = function renderQuoteCard(row, repairNotes = []) {
       ${tagChips ? `<div class="tags">${tagChips}</div>` : ''}
 
       <div class="embed" role="group" aria-label="Clip">
-        ${ytId ? `<iframe width="100%" height="215" src="https://www.youtube.com/embed/${esc(ytId)}"
-                  title="YouTube video" frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen loading="lazy"></iframe>`
-               : `<div class="muted">No video available</div>`}
+        ${ytId ? `
+          <div class="embed-frame">
+            <iframe width="100%" height="215" src="https://www.youtube.com/embed/${esc(ytId)}"
+                    title="YouTube video" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="embed-fallback">
+            <a href="https://youtu.be/${escAttr(ytId)}" target="_blank" rel="noopener" class="button sm" style="margin-top:.5rem;">Open on YouTube</a>
+          </div>
+        ` : `<div class="muted">No video available</div>`}
       </div>
 
       ${normalizedURL ? `
