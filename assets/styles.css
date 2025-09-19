@@ -139,6 +139,15 @@ main#app {
   display: none;
 }
 
+/* When a card is expanded (does not have .collapsed), show header and all body children */
+.card:not(.collapsed) > header {
+  display: block;
+}
+
+.card:not(.collapsed) .card-body > * {
+  display: block;
+}
+
 /* Hide all children of .card-body by default; tweet is explicitly shown */
 .card .card-body > * {
   display: none;
